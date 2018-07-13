@@ -23,7 +23,7 @@ function windowResized() {
 
 function draw(){
   if (keyCode  === 32){
-    clear();
+    background("#222222");
   }
 }
 
