@@ -10,14 +10,6 @@ function centerCanvas() {
 	
 }
 
-function play() {
-  var s = 'PRESS F to PLAY';
-  fill(255);
-  translate(WIDTH/2 - 45, HEIGHT/2 - 45);
-  text(s, 10, 10, 80, 80); // Text wraps within text box
-  
-}
-
 function setup() {
   cnv = createCanvas(WIDTH, HEIGHT);
   centerCanvas();
@@ -29,12 +21,12 @@ function windowResized() {
   centerCanvas();
 }
 
-
-function keyPressed(){
-  if (keyCode  === 70){
+function draw(){
+  if (keyCode  === 32){
     clear();
+  }
 }
-}
+
 
 function playScreen() {
   var begin = 'PRESS SPACEBAR TO PLAY';
