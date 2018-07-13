@@ -1,3 +1,7 @@
+body {
+
+}
+
 h1 {
 	font-family: sans-serif, "Arial";
 	text-align: center;
@@ -8,3 +12,4 @@ h1 {
 	padding-top: 10pt;
 	padding-bottom: 10pt;
 }
+
