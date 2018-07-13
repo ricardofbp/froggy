@@ -25,14 +25,16 @@ function windowResized() {
 function draw(){
   /* loops until user started the game - MIGHT CAUSE TROUBLE*/
   if (keyCode === 32) {
-    background("#222222"); 
+    clear();
     started = true;
   }
   
   if(started){
+    clear();
+    background("#222222"); 
     push();
     fill(random(255), random(255), random(255));
-    translate(WIDTH/2 - 50, HEIGHT/2 -100);
+    translate(WIDTH/2 - 50, HEIGHT/2 - 100);
     textSize(30);
     text("DRAW F R E N E T I C O", 0, 0, 100, 300); // Text wraps within text box
     pop();
