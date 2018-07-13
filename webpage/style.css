@@ -1,0 +1,10 @@
+h1 {
+	font-family: sans-serif, "Arial";
+	text-align: center;
+	text-shadow: 1pt 1pt #EBEBEB;
+	font-size: 24pt;
+	color: white;
+	background-color: darkcyan;
+	padding-top: 10pt;
+	padding-bottom: 10pt;
+}
