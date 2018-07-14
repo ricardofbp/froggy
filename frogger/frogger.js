@@ -1,8 +1,23 @@
-var cnv;
-var frog;
-var started = false;
+/***********************************************/
+/*                CONSTANTES                   */
+/***********************************************/
+
 const WIDTH = 400;
 const HEIGHT = 400;
+
+
+/***********************************************/
+/*               VARS GLOBAIS                  */
+/***********************************************/
+
+var cnv;
+var frog;
+var inMenu = true;
+
+/***********************************************/
+/*                FUNCOES                      */
+/***********************************************/
+
 
 function centerCanvas() {
   var x = (windowWidth - width) / 2;
@@ -15,37 +30,37 @@ function setup() {
   cnv = createCanvas(WIDTH, HEIGHT);
   centerCanvas();
 	background("#222222");
-  playScreen();
+  menuScreen();
 }
+
 
 function windowResized() {
   centerCanvas();
 }
 
+
 function draw(){
-  /* loops until user started the game - MIGHT CAUSE TROUBLE*/
-  if (keyCode === 32) {
-    clear();
-    started = true;
-  }
-  
-  if(started){
-    clear();
+
+  if(!inMenu){
     background("#222222"); 
     push();
     fill(random(255), random(255), random(255));
     translate(WIDTH/2 - 50, HEIGHT/2 - 100);
     textSize(30);
-    text("DRAW F R E N E T I C O", 0, 0, 100, 300); // Text wraps within text box
+    text("DRAW F R E N E T I C O", 0, 0, 100, 300); 
     pop();
   }
 }
 
 
-function playScreen() {
+function menuScreen() {
+  /* desativa o draw */
+  noLoop();
   
   var begin = 'PRESS SPACEBAR TO PLAY';
-  var title = "FROGGER"
+  var title = "FROGGER";
+  
+  background("#222222");   
   fill(255);
   
   push();
@@ -57,8 +72,26 @@ function playScreen() {
   push();
   translate(WIDTH/2 - 135, HEIGHT/2 + 30);
   textSize(20);
-  text(begin, 0, 0, 280, 40); // Text wraps within text box
+  text(begin, 0, 0, 280, 40);
   pop();
-  
-  
+}
+
+
+function keyPressed() {
+	if (keyCode === 32) {
+    clear();
+    inMenu = !inMenu;
+    
+    /*verifica se o user vai para o menu: 
+      se sim, chama o menuScreen
+      se nao, reativa o draw (chamando o loop())*/
+    if(!inMenu) {
+      loop();
+    }
+    else if(inMenu) {
+      menuScreen();
+    }
+    
+    console.log("inMenu: " + inMenu);
+  }
 }
