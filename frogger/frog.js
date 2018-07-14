@@ -2,6 +2,7 @@ function Frog() {
   this.x = WIDTH/2 - SCL/2;
   this.y = HEIGHT - SCL;
   this.score = 0;
+  this.size = SCL
   
   /*receives 1 or 0 (can be negative) and summs to the current position*/
   /*constrain constrains the min and max value the player's position can have*/
@@ -11,8 +12,12 @@ function Frog() {
   }
   
   this.show = function() {
+    graphicSize = this.size * 0.70
+    push();
     fill(0, 240, 0);
-    rect(this.x, this.y, SCL, SCL);
+    translate((this.size - graphicSize)/2, (this.size - graphicSize)/2);
+    rect(this.x, this.y, graphicSize, graphicSize);
+    pop();
   }
   
   this.reset = function() {
