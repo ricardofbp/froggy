@@ -118,7 +118,7 @@ function drawWorld() {
   var totalUnits = HEIGHT/SCL
 
   push();
-  fill(100, 100, 0);
+  fill(50, 70, 180);
   rect(0, 0, WIDTH, SCL*Math.floor(totalUnits*0.4));
   pop();
   
