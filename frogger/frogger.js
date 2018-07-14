@@ -4,14 +4,16 @@
 
 const WIDTH = 400;
 const HEIGHT = 400;
+const SCL = 20; /*tem que ser multipla de WIDTH, HEIGHT*/
 
 
 /***********************************************/
 /*               VARS GLOBAIS                  */
 /***********************************************/
 
+
 var cnv;
-var frog;
+var player;
 var inMenu = true;
 
 /***********************************************/
@@ -23,7 +25,6 @@ function centerCanvas() {
   var x = (windowWidth - width) / 2;
   var y = (windowHeight - height) / 2;
   cnv.position(x, y);
-	
 }
 
 function setup() {
@@ -31,8 +32,8 @@ function setup() {
   centerCanvas();
 	background("#222222");
   menuScreen();
+  player = new Frog();
 }
-
 
 function windowResized() {
   centerCanvas();
@@ -40,7 +41,7 @@ function windowResized() {
 
 
 function draw(){
-
+  
   if(!inMenu){
     background("#222222"); 
     push();
@@ -49,6 +50,8 @@ function draw(){
     textSize(30);
     text("DRAW F R E N E T I C O", 0, 0, 100, 300); 
     pop();
+    
+    player.show();
   }
 }
 
@@ -78,7 +81,7 @@ function menuScreen() {
 
 
 function keyPressed() {
-	if (keyCode === 32) {
+  if (keyCode === 32) {
     clear();
     inMenu = !inMenu;
     
@@ -93,5 +96,26 @@ function keyPressed() {
     }
     
     console.log("inMenu: " + inMenu);
+  }
+  
+  if (keyCode === UP_ARROW) player.move(0,-1);
+  if (keyCode === DOWN_ARROW) player.move(0,1);
+  if (keyCode === LEFT_ARROW) player.move(-1,0);
+  if (keyCode === RIGHT_ARROW) player.move(1,0);
+  
+}
+
+function Frog() {
+  this.x = 0;
+  this.y = 0;
+  
+  this.move = function(x, y) {
+    this.x = this.x + x*SCL;
+    this.y = this.y + y*SCL;
+  }
+  
+  this.show = function() {
+    fill(255);
+    rect(this.x, this.y, SCL, SCL);
   }
 }
