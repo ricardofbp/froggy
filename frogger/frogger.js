@@ -2,9 +2,9 @@
 /*                CONSTANTES                   */
 /***********************************************/
 
-const WIDTH = 400;
-const HEIGHT = 400;
-const SCL = 20; /*tem que ser multipla de WIDTH, HEIGHT*/
+const WIDTH = 450;
+const HEIGHT = 450;
+const SCL = 30; /*tem que ser multipla de WIDTH, HEIGHT*/
 
 
 /***********************************************/
@@ -23,7 +23,7 @@ var inMenu = true;
 
 function centerCanvas() {
   var x = (windowWidth - width) / 2;
-  var y = (windowHeight - height) / 2;
+  var y = (windowHeight*1.1 - height) / 2;
   cnv.position(x, y);
 }
 
@@ -62,9 +62,10 @@ function menuScreen() {
   
   push();
   fill(0, 240, 0);
-  translate(WIDTH/2 - 100, HEIGHT/2 - 100);
+  textStyle(BOLD);
+  translate(WIDTH/2 - 105, HEIGHT/4);
   textSize(40);
-  text(title, 0, 0, 50, 100);
+  text(title, 0, 0, 200, 50);
   pop();
   
   push();
@@ -102,8 +103,8 @@ function keyPressed() {
 }
 
 function Frog() {
-  this.x = 0;
-  this.y = 0;
+  this.x = WIDTH/2 - SCL/2;
+  this.y = HEIGHT - SCL;
   
   /*receives 1 or 0 (can be negative) and summs to the current position*/
   /*constrain constrains the min and max value the player's position can have*/
@@ -113,7 +114,7 @@ function Frog() {
   }
   
   this.show = function() {
-    fill(255);
+    fill(0, 240, 0);
     rect(this.x, this.y, SCL, SCL);
   }
 }
