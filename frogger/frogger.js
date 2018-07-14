@@ -5,6 +5,7 @@
 const WIDTH = 450;
 const HEIGHT = 450;
 const SCL = 30; /*tem que ser multipla de WIDTH, HEIGHT*/
+const NUMBER_CARS = 5
 
 
 /***********************************************/
@@ -14,6 +15,7 @@ const SCL = 30; /*tem que ser multipla de WIDTH, HEIGHT*/
 
 var cnv;
 var player;
+var car;
 var inMenu = true;
 
 /***********************************************/
@@ -32,6 +34,8 @@ function setup() {
 	background("#222222");
   menuScreen();
   player = new Frog();
+  
+  car = new Car(300);
 }
 
 function windowResized() {
@@ -46,6 +50,9 @@ function draw(){
     drawWorld();
     /*no need to call .move 'cus it is handled in keyPressed(), only need to draw the player*/
     player.show();
+    car.update();
+    detectCollision();
+    car.show();
   }
 }
 
@@ -88,9 +95,10 @@ function keyPressed() {
     if(!inMenu) {
       loop();
     }
+    
     else if(inMenu) {
       menuScreen();
-      player.reset();
+      reset();
     }
     
     console.log("inMenu: " + inMenu);
@@ -114,6 +122,15 @@ function showScore() {
   
 }
 
+function reset() {
+  player.reset();
+  car.reset();
+}
+
+function detectCollision() {
+  if(car.x + player.x < SCL) console.log("detecc");
+}
+
 function drawWorld() {
   var totalUnits = HEIGHT/SCL
 
@@ -132,36 +149,3 @@ function drawWorld() {
   rect(0, HEIGHT - SCL, WIDTH, SCL);
 }
 
-function Frog() {
-  this.x = WIDTH/2 - SCL/2;
-  this.y = HEIGHT - SCL;
-  this.score = 0;
-  
-  /*receives 1 or 0 (can be negative) and summs to the current position*/
-  /*constrain constrains the min and max value the player's position can have*/
-  this.move = function(x, y) {
-    this.x = constrain(this.x + (x * SCL), 0, WIDTH - SCL);
-    this.y = constrain(this.y + (y * SCL), 0, HEIGHT - SCL);
-  }
-  
-  this.show = function() {
-    fill(0, 240, 0);
-    rect(this.x, this.y, SCL, SCL);
-  }
-  
-  this.reset = function() {
-    this.x = WIDTH/2 - SCL/2;
-    this.y = HEIGHT - SCL;  
-    this.score = 0;
-  }
-  
-  /*rudimentar */
-  this.updateScore = function() {
-    this.score += SCL;  
-  }
-  
-  /*good practice*/
-  this.getScore = function() {
-    return this.score;
-  }
-}
