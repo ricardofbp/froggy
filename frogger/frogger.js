@@ -51,7 +51,7 @@ function draw(){
     /*no need to call .move 'cus it is handled in keyPressed(), only need to draw the player*/
     player.show();
     car.update();
-    detectCollision();
+    //detectCollision();
     car.show();
   }
 }
@@ -128,7 +128,7 @@ function reset() {
 }
 
 function detectCollision() {
-  if(car.x + player.x < SCL) console.log("detecc");
+  if(car.y - player.y < SCL) console.log("detecc");
 }
 
 function drawWorld() {

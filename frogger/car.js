@@ -1,14 +1,16 @@
 function Car(y) {
   this.x = 0;
   this.y = y;
+  this.originalX = 0;
   this.speed = 1;
   
   this.update = function() {
-    this.x = constrain(this.x + this.speed, 0, HEIGHT-SCL);
+    if(this.x == WIDTH + SCL) this.reset();
+    this.x = this.x + this.speed;
   }
   
   this.reset = function() {
-    this.x = 0;
+    this.x = this.originalX - SCL;
   }
   
   this.show = function() {
