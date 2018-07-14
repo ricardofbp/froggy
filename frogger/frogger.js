@@ -44,13 +44,7 @@ function draw(){
   
   if(!inMenu){
     background("#222222"); 
-    push();
-    fill(random(255), random(255), random(255));
-    translate(WIDTH/2 - 50, HEIGHT/2 - 100);
-    textSize(30);
-    text("DRAW F R E N E T I C O", 0, 0, 100, 300); 
-    pop();
-    
+    /*no need to call .move 'cus it is handled in keyPressed(), only need to draw the player*/
     player.show();
   }
 }
@@ -67,6 +61,7 @@ function menuScreen() {
   fill(255);
   
   push();
+  fill(0, 240, 0);
   translate(WIDTH/2 - 100, HEIGHT/2 - 100);
   textSize(40);
   text(title, 0, 0, 50, 100);
@@ -98,9 +93,10 @@ function keyPressed() {
     console.log("inMenu: " + inMenu);
   }
   
-  if (keyCode === UP_ARROW) player.move(0,-1);
-  if (keyCode === DOWN_ARROW) player.move(0,1);
-  if (keyCode === LEFT_ARROW) player.move(-1,0);
+  /*player movement is done by simply adding a unit == scl to the current position*/
+  if (keyCode === UP_ARROW)    player.move(0,-1);
+  if (keyCode === DOWN_ARROW)  player.move(0,1);
+  if (keyCode === LEFT_ARROW)  player.move(-1,0);
   if (keyCode === RIGHT_ARROW) player.move(1,0);
   
 }
@@ -109,9 +105,11 @@ function Frog() {
   this.x = 0;
   this.y = 0;
   
+  /*receives 1 or 0 (can be negative) and summs to the current position*/
+  /*constrain constrains the min and max value the player's position can have*/
   this.move = function(x, y) {
-    this.x = this.x + x*SCL;
-    this.y = this.y + y*SCL;
+    this.x = constrain(this.x + (x * SCL), 0, WIDTH - SCL);
+    this.y = constrain(this.y + (y * SCL), 0, HEIGHT - SCL);
   }
   
   this.show = function() {
