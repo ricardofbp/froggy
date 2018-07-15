@@ -1,6 +1,7 @@
 class Car {
   
   constructor(x, y) {
+    this.size = SCL;
     this.width = SCL*2;
     this.height = SCL;
     this.x1 = x - this.width;
@@ -11,7 +12,9 @@ class Car {
   }
   
   update() {
-    if(this.x1 == WIDTH) this.reset();
+    console.log("car x1 = " + this.x1 );
+    if(this.x1 >= WIDTH + this.size) 
+      this.reset();
     this.x1 += this.speed;
     this.x2 += this.speed;
   }
