@@ -34,6 +34,7 @@ function setup() {
   menuScreen();
   player = new Frog();
   car = new Car(300);
+  lilypad =  new Lilypad(180);
 }
 
 function windowResized() {
@@ -50,9 +51,12 @@ function draw(){
     player.show();
     car.update();
     car.show();
-    if(detectCollision()) gameOver();
-    //detectCollision();
-    
+    lilypad.update();
+    lilypad.show();
+    if(detectCarCollision()) 
+      gameOver();
+    if (detectEndingCollision())
+      gameOver();
   }
 }
 
@@ -145,9 +149,17 @@ function reset() {
   car.reset();
 }
 
-function detectCollision() {
+function detectCarCollision() {
   return player.x1 <= car.x2 && player.x2 >= car.x1 &&
     player.y1 <= car.y2 && player.y2 >= car.y1
+}
+
+function detectEndingCollision(){
+  return player.y1 === 0;
+}  
+
+function detectRiverCollision(){
+  
 }
 
 function drawWorld() {
