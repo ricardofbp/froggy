@@ -14,7 +14,7 @@ const NUMBER_CARS = 5
 
 var cnv;
 var player;
-var car;
+var cars;
 var lilypad1;
 var lilypad2;
 var inMenu = true;
@@ -35,7 +35,8 @@ function setup() {
 	background("#222222");
   menuScreen();
   player = new Frog();
-  car = new Car(300);
+  cars = new CarLane(300, 5);
+  cars.init();
   lilypad1 =  new Lilypad(150,0.5);
   lilypad2 =  new Lilypad(120,-0.5);
 }
@@ -52,8 +53,8 @@ function draw(){
     drawWorld();
     /*no need to call .move 'cus it is handled in keyPressed(), only need to draw the player*/
     player.show();
-    car.update();
-    car.show();
+    cars.update();
+    cars.show();
     lilypad1.update();
     lilypad1.show();
     lilypad2.update();
@@ -159,11 +160,11 @@ function gameOver() {
 
 function reset() {
   player.reset();
-  car.reset();
+  cars.reset();
 }
 
 function detectCarCollision() {
-  return player.x1 < car.x2 && player.x2 > car.x1 && player.y1 < car.y2 && player.y2 > car.y1
+ // return player.x1 < car.x2 && player.x2 > car.x1 && player.y1 < car.y2 && player.y2 > car.y1
 }
 
 function detectEndingCollision(){

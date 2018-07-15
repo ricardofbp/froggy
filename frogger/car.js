@@ -1,16 +1,17 @@
 class Car {
-  constructor(y) {
+  
+  constructor(x, y) {
     this.width = SCL*2;
     this.height = SCL;
-    this.x1 = 0 - this.width;
+    this.x1 = x - this.width;
     this.y1 = y;
     this.x2 = this.x1 + this.width;
     this.y2 = this.y1 + this.height;
-    this.speed = 1;
+    this.speed = 1.3;
   }
   
   update() {
-    if(this.x1 == WIDTH + this.width) this.reset();
+    if(this.x1 == WIDTH) this.reset();
     this.x1 += this.speed;
     this.x2 += this.speed;
   }
@@ -26,4 +27,51 @@ class Car {
     rect(this.x1, this.y1, this.width, this.height);
   }
   
+  getX1() {return this.x1;}
+}
+
+
+class CarLane {
+  
+  constructor(y, n) {
+    var self = this;
+    this.cars = [];
+    this.n = n;
+    this.y = y; 
+    this.space = random(SCL*(1 + 0.5), SCL*3.4);
+  }
+  
+  init() {
+    var i;  
+    
+    for(i = 0; i < this.n; i++) {
+      
+      var prevX = this.cars.length === 0 ? 0 : this.cars[i-1].getX1();
+      var car = new Car(prevX - this.space, this.y);
+      this.cars.push(car);
+      console.log(i + "," + this.cars[i]);
+      //console.log("car: " + i + ", " + this.cars[i]);
+    }
+  }
+  
+  reset() {
+    var i;
+    for(i = 0; i < this.cars.length; i++) {
+      this.cars[i].reset();
+    }
+  }
+  
+  update() {
+    var i;
+    for(i = 0; i < this.cars.length; i++) {
+      this.cars[i].update();
+    }
+  }
+  
+  show() {
+    var i;
+    for(i = 0; i < this.cars.length; i++) {
+      this.cars[i].show();
+    }
+  }
 }
