@@ -26,6 +26,12 @@ class Frog {
     pop();
   }
   
+  intersects(obj) {
+    console.log(this.x1 < obj.x2 && this.x2 > obj.x1 && this.y1 < obj.y2 && this.y2 > obj.y1);
+    return (this.x1 < obj.x2 && this.x2 > obj.x1 && this.y1 < obj.y2 && this.y2 > obj.y1)
+  }
+  
+  
   reset() {
     this.x1 = WIDTH/2 - this.width/2;
     this.y1 = HEIGHT - this.height;

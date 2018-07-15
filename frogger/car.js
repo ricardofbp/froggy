@@ -76,6 +76,8 @@ class CarLane {
       this.cars[i].show();
     }
   }
+  
+  getCar(i) { return this.cars[i]; }
 }
 
 
@@ -89,17 +91,18 @@ class Lanes {
   init(){
     var i;
      for(i = 0; i < this.n; i++) {
-      this.lanes[i] =  new CarLane(380 - (i*SCL*2.7 ) , NUMBER_CARS);
+      this.lanes[i] =  new CarLane(390 - (i*SCL*3 ) , NUMBER_CARS);
      }
+    
     for(i = 0; i < this.n; i++) {
       this.lanes[i].init();
      }
   }
+  
   update(){
     var i;
     for(i = 0; i < this.n; i++) {
       this.lanes[i].update();
-  
     }
   }
   
@@ -107,16 +110,17 @@ class Lanes {
     var i;
     for(i = 0; i < this.n; i++) {
       this.lanes[i].show();
-      
     }
   }
+  
   reset(){
     var i;
-     for(i = 0; i < this.n; i++) {
+    for(i = 0; i < this.n; i++) {
       this.lanes[i].reset();
     }
   }
   
+  getLane(i) { return this.lanes[i]; }
 }
 
 

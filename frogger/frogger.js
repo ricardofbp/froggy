@@ -5,7 +5,8 @@
 const WIDTH = 450;
 const HEIGHT = 450;
 const SCL = 30; /*tem que ser multipla de WIDTH, HEIGHT*/
-const NUMBER_CARS = 4
+const NUMBER_CARS = 4;
+const NUMBER_LANES = 3;
 
 
 /***********************************************/
@@ -14,7 +15,7 @@ const NUMBER_CARS = 4
 
 var cnv;
 var player;
-var cars;
+var lanes;
 var lilypad1;
 var lilypad2;
 var inMenu = true;
@@ -35,8 +36,8 @@ function setup() {
 	background("#222222");
   menuScreen();
   player = new Frog();
-  cars = new CarLane(300, NUMBER_CARS);
-  cars.init();
+  lanes = new Lanes(NUMBER_LANES);
+  lanes.init();
   lilypad1 =  new Lilypad(150,0.5);
   lilypad2 =  new Lilypad(120,-0.5);
 }
@@ -53,8 +54,8 @@ function draw(){
     drawWorld();
     /*no need to call .move 'cus it is handled in keyPressed(), only need to draw the player*/
     player.show();
-    cars.update();
-    cars.show();
+    lanes.update();
+    lanes.show();
     lilypad1.update();
     lilypad1.show();
     lilypad2.update();
@@ -160,11 +161,19 @@ function gameOver() {
 
 function reset() {
   player.reset();
-  cars.reset();
+  lanes.reset();
 }
 
 function detectCarCollision() {
- // return player.x1 < car.x2 && player.x2 > car.x1 && player.y1 < car.y2 && player.y2 > car.y1
+  var i, j, flag = false;
+  for(i = 0; i < NUMBER_LANES; i++) {
+    for(j = 0; j < NUMBER_CARS; j++) {
+      var lane = lanes.getLane(i);
+      var car = lane.getCar(j);
+      if(player.intersects(car)) flag = true;
+    }
+  }
+  return flag;
 }
 
 function detectEndingCollision(){
