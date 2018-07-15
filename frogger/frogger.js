@@ -150,8 +150,8 @@ function reset() {
 }
 
 function detectCarCollision() {
-  return player.x1 <= car.x2 && player.x2 >= car.x1 &&
-    player.y1 <= car.y2 && player.y2 >= car.y1
+  return player.x1 < car.x2 && player.x2 > car.x1 &&
+    player.y1 < car.y2 && player.y2 > car.y1
 }
 
 function detectEndingCollision(){
