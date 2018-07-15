@@ -1,10 +1,12 @@
 class Lilypad{ // this can be made with an abstract object class, the only diference is y , speed and size
-   constructor(y,s) {
+   constructor(x,y,s) {
     this.size = SCL;
-    this.x1 = 0;
+    this.width = SCL;
+    this.height = SCL;
+    this.x1 = x - this.width;
     this.y1 = y;
-    this.x2 = this.x1 + this.size;
-    this.y2 = this.y1 + this.size;
+    this.x2 = this.x1 + this.width;
+    this.y2 = this.y1 + this.height;
     this.speed = s;
   }
   
@@ -32,9 +34,52 @@ class Lilypad{ // this can be made with an abstract object class, the only difer
     rect(this.x1, this.y1, this.size, this.size);
   }
   
+  getX1() {return this.x1;}
+  
 }
   
+class LilypadLane {
   
+  constructor(y, n ,s) {
+    this.lilypads = [];
+    this.n = n;
+    this.y = y; 
+    this.space = random(SCL*(1 + 0.5), SCL*3.4);
+    this.speed = s;
+  }
+  
+  init() {
+    var i;  
+    
+    for(i = 0; i < this.n; i++) {
+      
+      var prevX = this.lilypads.length === 0 ? 0 : this.lilypads[i-1].getX1();
+      var lilypad = new Lilypad(prevX - this.space, this.y , this.s);
+      this.lilypads.push(lilypad);
+    }
+  }
+  
+  reset() {
+    var i;
+    for(i = 0; i < this.n; i++) {
+      this.lilypads[i].reset();
+    }
+  }
+  
+  update() {
+    var i;
+    for(i = 0; i < this.n; i++) {
+      this.lilypads[i].update();
+    }
+  }
+  
+  show() {
+    var i;
+    for(i = 0; i < this.n; i++) {
+      this.lilypads[i].show();
+    }
+  }
+}  
   
   
   
