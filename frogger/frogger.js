@@ -12,7 +12,6 @@ const NUMBER_CARS = 5
 /*               VARS GLOBAIS                  */
 /***********************************************/
 
-
 var cnv;
 var player;
 var car;
@@ -34,7 +33,6 @@ function setup() {
 	background("#222222");
   menuScreen();
   player = new Frog();
-  
   car = new Car(300);
 }
 
@@ -51,8 +49,10 @@ function draw(){
     /*no need to call .move 'cus it is handled in keyPressed(), only need to draw the player*/
     player.show();
     car.update();
-    //detectCollision();
     car.show();
+    if(detectCollision()) gameOver();
+    //detectCollision();
+    
   }
 }
 
@@ -61,7 +61,6 @@ function menuScreen() {
   /* desativa o draw */
   noLoop();
  
-  
   var begin = 'PRESS SPACEBAR TO PLAY';
   var title = "FROGGER";
   
@@ -109,7 +108,6 @@ function keyPressed() {
     if (keyCode === UP_ARROW)    {
       player.move(0,-1);
       player.updateScore();  
-      console.log(player.getScore());
     }
     if (keyCode === DOWN_ARROW)  player.move(0,1); /*will be disabled in final build, frog only moves up*/
     if (keyCode === LEFT_ARROW)  player.move(-1,0);
@@ -118,8 +116,28 @@ function keyPressed() {
   
 }
 
-function showScore() {
+function gameOver() {
+  noLoop();
+ 
+  var over = 'GAME OVER';
+  var restart = "PRESS SPACEBAR TO RESTART";
   
+  background("#222222");   
+  fill(255);
+  
+  push();
+  fill(255);
+  textStyle(BOLD);
+  translate(WIDTH/2 - 140, HEIGHT/3);
+  textSize(40);
+  text(over, 0, 0, 300, 50);
+  pop();
+  
+  push();
+  translate(WIDTH/2 - 160, HEIGHT/2 + 30);
+  textSize(20);
+  text(restart, 0, 0, 350, 40);
+  pop();
 }
 
 function reset() {
@@ -128,7 +146,8 @@ function reset() {
 }
 
 function detectCollision() {
-  if(car.y - player.y < SCL) console.log("detecc");
+  return player.x1 <= car.x2 && player.x2 >= car.x1 &&
+    player.y1 <= car.y2 && player.y2 >= car.y1
 }
 
 function drawWorld() {
