@@ -1,5 +1,4 @@
 class Lilypad{ // this can be made with an abstract object class, the only diference is y , speed and size
-  
    constructor(y) {
     this.size = SCL;
     this.x1 = 0;
@@ -62,4 +61,3 @@ class Lilypad{ // this can be made with an abstract object class, the only difer
   
   
   
-}

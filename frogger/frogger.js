@@ -15,6 +15,7 @@ const NUMBER_CARS = 5
 var cnv;
 var player;
 var car;
+var lilypad;
 var inMenu = true;
 
 /***********************************************/
@@ -34,7 +35,7 @@ function setup() {
   menuScreen();
   player = new Frog();
   car = new Car(300);
-  lilypad =  new Lilypad(180);
+  lilypad =  new Lilypad(150);
 }
 
 function windowResized() {
