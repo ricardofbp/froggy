@@ -114,13 +114,21 @@ function keyPressed() {
   
   /*player movement is done by simply adding a unit == scl to the current position*/
   if(!inMenu){  /*prevents user from moving the frog in the menu screen*/
-    if (keyCode === UP_ARROW)    {
+    
+    
+    
+    if (keyCode === UP_ARROW) {
       player.move(0,-1);
       player.updateScore();  
     }
     if (keyCode === DOWN_ARROW)  player.move(0,1); /*will be disabled in final build, frog only moves up*/
     if (keyCode === LEFT_ARROW)  player.move(-1,0);
     if (keyCode === RIGHT_ARROW) player.move(1,0);
+    
+    /*
+    console.log("frog: " + player.x1 + ", " + player.y1 + " | " + player.x2 + ", " + player.y2);
+    console.log("car: " + car.x1 + ", " + car.y1 + " | " + car.x2 + ", " + car.y2);
+    */
   }
   
 }
@@ -155,8 +163,7 @@ function reset() {
 }
 
 function detectCarCollision() {
-  return player.x1 < car.x2 && player.x2 > car.x1 &&
-    player.y1 < car.y2 && player.y2 > car.y1
+  return player.x1 < car.x2 && player.x2 > car.x1 && player.y1 < car.y2 && player.y2 > car.y1
 }
 
 function detectEndingCollision(){
