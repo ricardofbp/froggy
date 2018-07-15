@@ -15,7 +15,8 @@ const NUMBER_CARS = 5
 var cnv;
 var player;
 var car;
-var lilypad;
+var lilypad1;
+var lilypad2;
 var inMenu = true;
 
 /***********************************************/
@@ -35,7 +36,8 @@ function setup() {
   menuScreen();
   player = new Frog();
   car = new Car(300);
-  lilypad =  new Lilypad(150);
+  lilypad1 =  new Lilypad(150,0.5);
+  lilypad2 =  new Lilypad(120,-0.5);
 }
 
 function windowResized() {
@@ -52,8 +54,10 @@ function draw(){
     player.show();
     car.update();
     car.show();
-    lilypad.update();
-    lilypad.show();
+    lilypad1.update();
+    lilypad1.show();
+    lilypad2.update();
+    lilypad2.show();
     if(detectCarCollision()) 
       gameOver();
     if (detectEndingCollision())
