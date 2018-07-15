@@ -5,7 +5,7 @@
 const WIDTH = 450;
 const HEIGHT = 450;
 const SCL = 30; /*tem que ser multipla de WIDTH, HEIGHT*/
-const NUMBER_CARS = 5
+const NUMBER_CARS = 4
 
 
 /***********************************************/
@@ -35,7 +35,7 @@ function setup() {
 	background("#222222");
   menuScreen();
   player = new Frog();
-  cars = new CarLane(300, 5);
+  cars = new CarLane(300, NUMBER_CARS);
   cars.init();
   lilypad1 =  new Lilypad(150,0.5);
   lilypad2 =  new Lilypad(120,-0.5);
