@@ -12,7 +12,7 @@ class Lilypad{ // this can be made with an abstract object class, the only difer
   
   update() {
     
-    if ((this.x1 === (WIDTH + this.size) && this.speed > 0)  || (this.x1 === (0 - this.size) && this.speed < 0 )) {
+    if ((this.x1 === (WIDTH + this.size) && this.speed > 0)  || (this.x1 <= (0 - this.size) && this.speed < 0 )) {
       this.reset();
     }
 
@@ -56,11 +56,18 @@ class LilypadLane {
   }
   
   init() {
-    var i;  
-    for(i = 0; i < this.n; i++) {
+  var i;  
+  for(i = 0; i < this.n; i++) {
+    if (this.speed > 0){
       var prevX = this.lilypads.length === 0 ? 0 : this.lilypads[i-1].getX1();
       var lilypad = new Lilypad(prevX - this.space, this.y , this.speed);
       this.lilypads.push(lilypad); 
+    }
+    else{
+      var prevX = this.lilypads.length === 0 ? WIDTH : this.lilypads[i-1].getX1();
+      var lilypad = new Lilypad(prevX + this.space, this.y , this.speed);
+      this.lilypads.push(lilypad); 
+    }
   }
 }
   
@@ -84,4 +91,49 @@ class LilypadLane {
       this.lilypads[i].show();
     }
   }
-}  
+}
+
+
+class LilypadLanes {
+    constructor(n,s){
+      this.lanes = [];
+      this.n = n;
+      this.speed = s;
+    }
+  
+  init(){
+    var i;
+     for(i = 0; i < this.n; i++) {
+      this.speed = -1*this.speed;
+      this.lanes[i] =  new LilypadLane(150 - (i*SCL ) , 4 , this.speed);
+       
+     }
+    
+    for(i = 0; i < this.n; i++) {
+      this.lanes[i].init();
+     }
+  }
+  
+  update(){
+    var i;
+    for(i = 0; i < this.n; i++) {
+      this.lanes[i].update();
+    }
+  }
+  
+  show(){
+    var i;
+    for(i = 0; i < this.n; i++) {
+      this.lanes[i].show();
+    }
+  }
+  
+  reset(){
+    var i;
+    for(i = 0; i < this.n; i++) {
+      this.lanes[i].reset();
+    }
+  }
+  
+  getLane(i) { return this.lanes[i]; }
+}
