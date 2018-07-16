@@ -1,5 +1,5 @@
 class Lilypad{ // this can be made with an abstract object class, the only diference is y , speed and size
-   constructor(x,y,s) {
+   constructor(x, y, s) {
     this.size = SCL;
     this.width = SCL;
     this.height = SCL;
@@ -11,21 +11,29 @@ class Lilypad{ // this can be made with an abstract object class, the only difer
   }
   
   update() {
-    if((this.x1 === WIDTH + this.size && this.speed > 0)  || (this.x1 === 0 - this.size && this.speed < 0 ))
+    
+    if ((this.x1 === (WIDTH + this.size) && this.speed > 0)  || (this.x1 === (0 - this.size) && this.speed < 0 )) {
       this.reset();
+    }
+
+    if (this.x1 >= WIDTH + this.size) {
+      this.reset();
+    }
     this.x1 += this.speed;
     this.x2 += this.speed;
+
+
   }
   
   /*no need to reset y 'cus it is always the same*/
   reset() {
     if (this.speed > 0){
-    this.x1 = 0 - this.size;
-    this.x2 = this.x1 + this.size;
+      this.x1 = 0 - this.size;
+      this.x2 = this.x1 + this.size;
     }
     else{
-    this.x1 = WIDTH + this.size;
-    this.x2 = this.x1 + this.size;
+      this.x1 = WIDTH + this.size;
+      this.x2 = this.x1 + this.size;
     }
   }
   
@@ -35,12 +43,11 @@ class Lilypad{ // this can be made with an abstract object class, the only difer
   }
   
   getX1() {return this.x1;}
-  
 }
   
 class LilypadLane {
   
-  constructor(y, n ,s) {
+  constructor(y, n, s) {
     this.lilypads = [];
     this.n = n;
     this.y = y; 
@@ -50,65 +57,31 @@ class LilypadLane {
   
   init() {
     var i;  
-    
     for(i = 0; i < this.n; i++) {
-      
       var prevX = this.lilypads.length === 0 ? 0 : this.lilypads[i-1].getX1();
-      var lilypad = new Lilypad(prevX - this.space, this.y , this.s);
-      this.lilypads.push(lilypad);
-    }
+      var lilypad = new Lilypad(prevX - this.space, this.y , this.speed);
+      this.lilypads.push(lilypad); 
   }
+}
   
   reset() {
     var i;
-    for(i = 0; i < this.n; i++) {
+    for(i = 0; i < this.lilypads.length; i++) {
       this.lilypads[i].reset();
     }
   }
   
   update() {
     var i;
-    for(i = 0; i < this.n; i++) {
+    for(i = 0; i < this.lilypads.length; i++) {
       this.lilypads[i].update();
     }
   }
   
   show() {
     var i;
-    for(i = 0; i < this.n; i++) {
+    for(i = 0; i < this.lilypads.length; i++) {
       this.lilypads[i].show();
     }
   }
 }  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
