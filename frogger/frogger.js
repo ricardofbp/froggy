@@ -6,18 +6,18 @@ const WIDTH = 450;
 const HEIGHT = 450;
 const SCL = 30; /*tem que ser multipla de WIDTH, HEIGHT*/
 const NUMBER_CARS = 4;
-const NUMBER_LANES = 3;
-
-
+const NUMBER_CAR_LANES = 3;
+const NUMBER_LILYPADS = 4;
+const NUMBER_LILYPAD_LANES = 5;
+const LILYPAD_SPEED = 0.6;
 /***********************************************/
 /*               VARS GLOBAIS                  */
 /***********************************************/
 
 var cnv;
 var player;
-var lanes;
-var lilypad1;
-var lilypad2;
+var carLanes;
+var lilypadLanes;
 var inMenu = true;
 
 /***********************************************/
@@ -36,10 +36,11 @@ function setup() {
 	background("#222222");
   menuScreen();
   player = new Frog();
-  lanes = new Lanes(NUMBER_LANES);
-  lanes.init();
-  lilypad1 =  new Lilypad(150,0.5);
-  lilypad2 =  new Lilypad(120,-0.5);
+  carLanes = new CarLanes(NUMBER_CAR_LANES);
+  lilypadLanes = new LilypadLanes(NUMBER_LILYPAD_LANES, LILYPAD_SPEED);
+  carLanes.init();
+  lilypadLanes.init();
+  
 }
 
 function windowResized() {
@@ -52,14 +53,18 @@ function draw(){
   if(!inMenu){
     background("#222222"); 
     drawWorld();
-    /*no need to call .move 'cus it is handled in keyPressed(), only need to draw the player*/
-    player.show();
-    lanes.update();
-    lanes.show();
-    lilypad1.update();
-    lilypad1.show();
-    lilypad2.update();
-    lilypad2.show();
+
+    player.show(); 
+    
+    lilypadLanes.update();
+    lilypadLanes.show();
+    
+    carLanes.update();
+    carLanes.show();
+    
+    lilypad.update();
+    lilypad.show();
+    
     if(detectCarCollision()) 
       gameOver();
     if (detectEndingCollision())
@@ -117,8 +122,6 @@ function keyPressed() {
   /*player movement is done by simply adding a unit == scl to the current position*/
   if(!inMenu){  /*prevents user from moving the frog in the menu screen*/
     
-    
-    
     if (keyCode === UP_ARROW) {
       player.move(0,-1);
       player.updateScore();  
@@ -126,11 +129,7 @@ function keyPressed() {
     if (keyCode === DOWN_ARROW)  player.move(0,1); /*will be disabled in final build, frog only moves up*/
     if (keyCode === LEFT_ARROW)  player.move(-1,0);
     if (keyCode === RIGHT_ARROW) player.move(1,0);
-    
-    /*
-    console.log("frog: " + player.x1 + ", " + player.y1 + " | " + player.x2 + ", " + player.y2);
-    console.log("car: " + car.x1 + ", " + car.y1 + " | " + car.x2 + ", " + car.y2);
-    */
+
   }
   
 }
