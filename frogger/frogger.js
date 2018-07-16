@@ -62,8 +62,8 @@ function draw(){
     carLanes.update();
     carLanes.show();
     
-    lilypad.update();
-    lilypad.show();
+    lilypadLanes.update();
+    lilypadLanes.show();
     
     if(detectCarCollision()) 
       gameOver();
@@ -165,9 +165,9 @@ function reset() {
 
 function detectCarCollision() {
   var i, j, flag = false;
-  for(i = 0; i < NUMBER_LANES; i++) {
+  for(i = 0; i < NUMBER_CAR_LANES; i++) {
     for(j = 0; j < NUMBER_CARS; j++) {
-      var lane = lanes.getLane(i);
+      var lane = carLanes.getLane(i);
       var car = lane.getCar(j);
       if(player.intersects(car)) flag = true;
     }
