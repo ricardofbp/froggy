@@ -1,138 +1,50 @@
-class Lilypad{ // this can be made with an abstract object class, the only diference is y , speed and size
-   constructor(x, y, s) {
-    this.size = SCL;
-    this.width = SCL;
-    this.height = SCL;
-    this.x1 = x - this.width;
-    this.y1 = y;
-    this.x2 = this.x1 + this.width;
-    this.y2 = this.y1 + this.height;
-    this.speed = s;
+class Lilypad extends SingleElement{
+  constructor(x, y, width, height, speed) {
+    super(x, y, width, height, speed);
   }
-  
-  update() {
-    
-    if ((this.x1 >= (WIDTH + this.size) && this.speed > 0)  || (this.x1 <= (0 - this.size) && this.speed < 0 )) {
-      this.reset();
-    }
-
- 
-    this.x1 += this.speed;
-    this.x2 += this.speed;
-
-
-  }
-  
-  /*no need to reset y 'cus it is always the same*/
-  reset() {
-    if (this.speed > 0){
-      this.x1 = 0 - this.size;
-      this.x2 = this.x1 + this.size;
-    }
-    else{
-      this.x1 = WIDTH + this.size;
-      this.x2 = this.x1 + this.size;
-    }
-  }
-  
-  show() {
-    fill(100, 0, 0);
-    rect(this.x1, this.y1, this.size, this.size);
-  }
-  
-  getX1() {return this.x1;}
 }
-  
-class LilypadLane {
-  
-  constructor(y, n, s) {
-    this.lilypads = [];
-    this.n = n;
-    this.y = y; 
-    this.space = random(SCL*(1 + 0.5), SCL*3.4);
-    this.speed = s;
+
+
+class LilypadLane extends SingleLane{
+  constructor(y, width, height, speed, numElems) {
+    super(y, width, height, speed, numElems);
+    this.space = random(SCL*4, SCL*4.5);
   }
-  
+
   init() {
-  var i;  
-  for(i = 0; i < this.n; i++) {
-    if (this.speed > 0){
-      var prevX = this.lilypads.length === 0 ? 0 : this.lilypads[i-1].getX1();
-      var lilypad = new Lilypad(prevX - this.space, this.y , this.speed);
-      this.lilypads.push(lilypad); 
-    }
-    else{
-      var prevX = this.lilypads.length === 0 ? WIDTH : this.lilypads[i-1].getX1();
-      var lilypad = new Lilypad(prevX + this.space, this.y , this.speed);
-      this.lilypads.push(lilypad); 
-    
-    }
-  }
-}
-  
-  reset() {
-    var i;
-    for(i = 0; i < this.lilypads.length; i++) {
-      this.lilypads[i].reset();
+    var i;  
+
+    for(i = 0; i < this.numElems; i++) {
+      var prevX = this.elements.length === 0 ? random(WIDTH/4, WIDTH/2) : this.elements[i-1].getX1();
+      
+      if (this.speed > 0){
+        var element = new Lilypad(prevX - this.space, this.y, this.width, this.height, this.speed);
+      }
+
+      else {
+        var element = new Lilypad(prevX + this.space, this.y, this.width, this.height, this.speed);
+      }
+
+      this.elements.push(element);
     }
   }
   
-  update() {
-    var i;
-    for(i = 0; i < this.lilypads.length; i++) {
-      this.lilypads[i].update();
-    }
-  }
-  
-  show() {
-    var i;
-    for(i = 0; i < this.lilypads.length; i++) {
-      this.lilypads[i].show();
-    }
-  }
 }
 
-
-class LilypadLanes {
-    constructor(n,s){
-      this.lanes = [];
-      this.n = n;
-      this.speed = s;
-    }
+class LilypadLanes extends MultipleLanes{
+  
+  constructor(width, height, speed, numElems, numLanes) {
+    super(width, height, speed, numElems, numLanes);
+  }
   
   init(){
     var i;
-     for(i = 0; i < this.n; i++) {
+    for(i = 0; i < this.numLanes; i++) {
       this.speed = -1*this.speed;
-      this.lanes[i] =  new LilypadLane(150 - (i*SCL ) , 4 , this.speed);
-       
-     }
-    
-    for(i = 0; i < this.n; i++) {
-      this.lanes[i].init();
-     }
-  }
-  
-  update(){
-    var i;
-    for(i = 0; i < this.n; i++) {
-      this.lanes[i].update();
+      var lane =  new LilypadLane(150 - (i*SCL), this.width, this.height, this.speed, this.numElems);
+      lane.init();
+      this.lanes.push(lane);
     }
+   console.log(this.lanes);
   }
-  
-  show(){
-    var i;
-    for(i = 0; i < this.n; i++) {
-      this.lanes[i].show();
-    }
-  }
-  
-  reset(){
-    var i;
-    for(i = 0; i < this.n; i++) {
-      this.lanes[i].reset();
-    }
-  }
-  
-  getLane(i) { return this.lanes[i]; }
 }

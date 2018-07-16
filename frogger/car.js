@@ -47,5 +47,3 @@ class CarLanes extends MultipleLanes{
     }
   }
 }
-
-
