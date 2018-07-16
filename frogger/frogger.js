@@ -163,7 +163,7 @@ function gameOver() {
 function reset() {
   player.reset();
   carLanes.reset(true);
-  lilypadLanes.reset();
+  lilypadLanes.reset(true);
 }
 
 function detectCarCollision() {
