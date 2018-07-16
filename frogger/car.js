@@ -82,7 +82,7 @@ class CarLane {
 
 
 
-class Lanes {
+class CarLanes {
     constructor(n){
       this.lanes = [];
       this.n = n;
