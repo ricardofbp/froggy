@@ -7,9 +7,11 @@ const HEIGHT = 450;
 const SCL = 30; /*tem que ser multipla de WIDTH, HEIGHT*/
 const NUMBER_CARS = 4;
 const NUMBER_CAR_LANES = 3;
+const CAR_SPEED = 1;
 const NUMBER_LILYPADS = 4;
 const NUMBER_LILYPAD_LANES = 5;
-const LILYPAD_SPEED = 0.6;
+const LILYPAD_SPEED = 0.2;
+
 /***********************************************/
 /*               VARS GLOBAIS                  */
 /***********************************************/
@@ -36,8 +38,8 @@ function setup() {
 	background("#222222");
   menuScreen();
   player = new Frog();
-  carLanes = new CarLanes(NUMBER_CAR_LANES);
-  lilypadLanes = new LilypadLanes(NUMBER_LILYPAD_LANES, LILYPAD_SPEED);
+  carLanes = new CarLanes(SCL*2, SCL, CAR_SPEED, NUMBER_CARS, NUMBER_CAR_LANES);
+  lilypadLanes = new LilypadLanes(SCL, SCL, LILYPAD_SPEED, NUMBER_LILYPADS, NUMBER_LILYPAD_LANES);
   carLanes.init();
   lilypadLanes.init();
   
@@ -160,7 +162,8 @@ function gameOver() {
 
 function reset() {
   player.reset();
-  lanes.reset();
+  carLanes.reset(true);
+  lilypadLanes.reset();
 }
 
 function detectCarCollision() {
@@ -168,7 +171,7 @@ function detectCarCollision() {
   for(i = 0; i < NUMBER_CAR_LANES; i++) {
     for(j = 0; j < NUMBER_CARS; j++) {
       var lane = carLanes.getLane(i);
-      var car = lane.getCar(j);
+      var car = lane.getSingleElement(j);
       if(player.intersects(car)) flag = true;
     }
   }
