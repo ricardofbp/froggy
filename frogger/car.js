@@ -15,13 +15,14 @@ class CarLane extends SingleLane{
     var i;  
 
     for(i = 0; i < this.numElems; i++) {
-      var prevX = this.elements.length === 0 ? random(WIDTH/4, WIDTH/2) : this.elements[i-1].getX1();
-      
+     
       if (this.speed > 0){
+        var prevX = this.elements.length === 0 ? WIDTH : this.elements[i-1].getX1();
         var element = new Car(prevX - this.space, this.y, this.width, this.height, this.speed);
       }
 
       else {
+        var prevX = this.elements.length === 0 ? 0 : this.elements[i-1].getX1();
         var element = new Car(prevX + this.space, this.y, this.width, this.height, this.speed);
       }
 

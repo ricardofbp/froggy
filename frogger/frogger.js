@@ -8,9 +8,9 @@ const SCL = 30; /*tem que ser multipla de WIDTH, HEIGHT*/
 const NUMBER_CARS = 4;
 const NUMBER_CAR_LANES = 3;
 const CAR_SPEED = 1;
-const NUMBER_LILYPADS = 4;
+const NUMBER_LILYPADS = 3;
 const NUMBER_LILYPAD_LANES = 5;
-const LILYPAD_SPEED = 0.2;
+const LILYPAD_SPEED = 0.4;
 
 /***********************************************/
 /*               VARS GLOBAIS                  */
@@ -56,21 +56,24 @@ function draw(){
     background("#222222"); 
     drawWorld();
 
+    lilypadLanes.update();
+        
+    carLanes.update();
+    
+    var lilypad = detectLilypadCollision();
+    if (player.isOnLilypad){
+      player.moveOnLilypad(lilypad);
+    }
+    
+    carLanes.show();
+    lilypadLanes.show();
     player.show(); 
     
-    lilypadLanes.update();
-    lilypadLanes.show();
-    
-    carLanes.update();
-    carLanes.show();
-    
-    lilypadLanes.update();
-    lilypadLanes.show();
-    
-    if(detectCarCollision()) 
+    if(detectCarCollision() || detectRiverCollision()) 
       gameOver();
     if (detectEndingCollision())
       gameOver();
+    
   }
 }
 
@@ -123,7 +126,8 @@ function keyPressed() {
   
   /*player movement is done by simply adding a unit == scl to the current position*/
   if(!inMenu){  /*prevents user from moving the frog in the menu screen*/
-    
+      var totalUnits = HEIGHT/SCL;
+      console.log(player.y1 + " " + SCL*Math.floor(totalUnits*0.4));
     if (keyCode === UP_ARROW) {
       player.move(0,-1);
       player.updateScore();  
@@ -138,6 +142,7 @@ function keyPressed() {
 
 function gameOver() {
   noLoop();
+  clear();
  
   var over = 'GAME OVER';
   var restart = "PRESS SPACEBAR TO RESTART";
@@ -182,8 +187,28 @@ function detectEndingCollision(){
   return player.y1 === 0;
 }  
 
+function detectLilypadCollision() {
+  var i, j;
+  for(i = 0; i < NUMBER_LILYPAD_LANES; i++) {
+    for(j = 0; j < NUMBER_LILYPADS; j++) {
+      var lane = lilypadLanes.getLane(i);
+      var lilypad = lane.getSingleElement(j);
+      if(player.intersects(lilypad)) {
+        player.setOnLilypad(true);
+        console.log("true? " + player.isOnLilypad);
+        return lilypad;
+      }
+    }
+  }
+  console.log("false? " + player.isOnLilypad);
+  player.setOnLilypad(false);
+  return false;
+}
+
 function detectRiverCollision(){
-  
+  var totalUnits = HEIGHT/SCL;
+
+  if(!player.isOnLilypad && player.y1 <= SCL*Math.floor(totalUnits*0.4) - SCL) gameOver();
 }
 
 function drawWorld() {
