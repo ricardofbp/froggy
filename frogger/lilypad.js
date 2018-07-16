@@ -12,13 +12,11 @@ class Lilypad{ // this can be made with an abstract object class, the only difer
   
   update() {
     
-    if ((this.x1 === (WIDTH + this.size) && this.speed > 0)  || (this.x1 <= (0 - this.size) && this.speed < 0 )) {
+    if ((this.x1 >= (WIDTH + this.size) && this.speed > 0)  || (this.x1 <= (0 - this.size) && this.speed < 0 )) {
       this.reset();
     }
 
-    if (this.x1 >= WIDTH + this.size) {
-      this.reset();
-    }
+ 
     this.x1 += this.speed;
     this.x2 += this.speed;
 
@@ -67,6 +65,7 @@ class LilypadLane {
       var prevX = this.lilypads.length === 0 ? WIDTH : this.lilypads[i-1].getX1();
       var lilypad = new Lilypad(prevX + this.space, this.y , this.speed);
       this.lilypads.push(lilypad); 
+    
     }
   }
 }
