@@ -8,13 +8,15 @@ class Frog {
     this.x2 = this.x1 + this.width;
     this.y2 = this.y1 + this.height;
     this.isOnLilypad = false;
+    this.speed = 0;
     this.score = 0;
   }
   
   move(x, y) {
-    this.x1 = constrain(this.x1 + (x * SCL), 0, WIDTH - SCL);
+    console.log(this.speed);
+    this.x1 = constrain(this.x1 + (x * SCL) + this.speed, 0, WIDTH - SCL);
     this.y1 = constrain(this.y1 + (y * SCL), 0, HEIGHT - SCL);
-    this.x2 = constrain(this.x2 + (x * SCL), SCL, WIDTH);
+    this.x2 = constrain(this.x2 + (x * SCL) + this.speed, SCL, WIDTH);
     this.y2 = constrain(this.y2 + (y * SCL), SCL, HEIGHT);
   }
   
@@ -34,6 +36,7 @@ class Frog {
   
   intersects(obj) {
     return (this.x1 < obj.x2 && this.x2 > obj.x1 && this.y1 < obj.y2 && this.y2 > obj.y1)
+    
   }
   
   
@@ -57,5 +60,9 @@ class Frog {
   
   isOnLilypad() { return this.onLilypad; }
   
-  setOnLilypad(b) { this.isOnLilypad = b; }
+  setOnLilypad(lilypad, b) { 
+    this.isOnLilypad = b; 
+    if(!b) this.speed = 0;
+    else if (b && lilypad != null) this.speed = lilypad.speed;
+  }
 }

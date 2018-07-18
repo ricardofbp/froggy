@@ -56,23 +56,28 @@ function draw(){
     background("#222222"); 
     drawWorld();
 
-    lilypadLanes.update();
-        
-    carLanes.update();
-    
-    var lilypad = detectLilypadCollision();
-    if (player.isOnLilypad){
-      player.moveOnLilypad(lilypad);
-    }
-    
     carLanes.show();
     lilypadLanes.show();
     player.show(); 
+    
+    lilypadLanes.update();
+    carLanes.update();
+    
+    var lilypad = detectLilypadCollision();
     
     if(detectCarCollision() || detectRiverCollision()) 
       gameOver();
     if (detectEndingCollision())
       gameOver();
+    
+    
+    if (player.isOnLilypad){
+      player.moveOnLilypad(lilypad);
+    }
+    
+
+    
+
     
   }
 }
@@ -127,7 +132,8 @@ function keyPressed() {
   /*player movement is done by simply adding a unit == scl to the current position*/
   if(!inMenu){  /*prevents user from moving the frog in the menu screen*/
       var totalUnits = HEIGHT/SCL;
-      console.log(player.y1 + " " + SCL*Math.floor(totalUnits*0.4));
+      //console.log(player.y1 + " " + SCL*Math.floor(totalUnits*0.4));
+      //console.log(player.y1 + " " + SCL*Math.floor(totalUnits*0.4));
     if (keyCode === UP_ARROW) {
       player.move(0,-1);
       player.updateScore();  
@@ -194,14 +200,14 @@ function detectLilypadCollision() {
       var lane = lilypadLanes.getLane(i);
       var lilypad = lane.getSingleElement(j);
       if(player.intersects(lilypad)) {
-        player.setOnLilypad(true);
-        console.log("true? " + player.isOnLilypad);
+        player.setOnLilypad(lilypad, true);
+        //console.log("true? " + player.isOnLilypad);
         return lilypad;
       }
     }
   }
-  console.log("false? " + player.isOnLilypad);
-  player.setOnLilypad(false);
+  //console.log("false? " + player.isOnLilypad);
+  player.setOnLilypad(lilypad, false);
   return false;
 }
 
