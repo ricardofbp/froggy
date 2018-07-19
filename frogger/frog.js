@@ -13,7 +13,7 @@ class Frog {
   }
   
   move(x, y) {
-    console.log(this.speed);
+    console.log(this.y1);
     this.x1 = constrain(this.x1 + (x * SCL) + this.speed, 0, WIDTH - SCL);
     this.y1 = constrain(this.y1 + (y * SCL), 0, HEIGHT - SCL);
     this.x2 = constrain(this.x2 + (x * SCL) + this.speed, SCL, WIDTH);
@@ -28,7 +28,7 @@ class Frog {
   show() {
     var graphicSize = this.size * 0.70;
     push();
-    fill(0, 240, 0);
+    fill(0, 250, 0);
     translate((this.size - graphicSize)/2, (this.size - graphicSize)/2);
     rect(this.x1, this.y1, graphicSize, graphicSize);
     pop();

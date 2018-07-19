@@ -21,6 +21,7 @@ var player;
 var carLanes;
 var lilypadLanes;
 var inMenu = true;
+var world;
 
 /***********************************************/
 /*                FUNCOES                      */
@@ -37,11 +38,13 @@ function setup() {
   centerCanvas();
 	background("#222222");
   menuScreen();
+  world = new World();
   player = new Frog();
   carLanes = new CarLanes(SCL*2, SCL, CAR_SPEED, NUMBER_CARS, NUMBER_CAR_LANES);
   lilypadLanes = new LilypadLanes(SCL, SCL, LILYPAD_SPEED, NUMBER_LILYPADS, NUMBER_LILYPAD_LANES);
   carLanes.init();
   lilypadLanes.init();
+ // world.endZone.show();
   
 }
 
@@ -54,7 +57,8 @@ function draw(){
   
   if(!inMenu){
     background("#222222"); 
-    drawWorld();
+    //drawWorld();
+    world.show();
 
     carLanes.show();
     lilypadLanes.show();
@@ -68,7 +72,7 @@ function draw(){
     if(detectCarCollision() || detectRiverCollision()) 
       gameOver();
     if (detectEndingCollision())
-      gameOver();
+      levelPassed();
     
     
     if (player.isOnLilypad){
@@ -171,6 +175,31 @@ function gameOver() {
   pop();
 }
 
+function levelPassed() {
+  noLoop();
+  clear();
+ 
+  var over = 'LEVEL PASSED';
+  var restart = "PRESS SPACEBAR TO RESTART";
+  
+  background("#222222");   
+  fill(255);
+  
+  push();
+  fill(255);
+  textStyle(BOLD);
+  translate(WIDTH/2 - 175, HEIGHT/3);
+  textSize(40);
+  text(over, 0, 0, 350, 50);
+  pop();
+  
+  push();
+  translate(WIDTH/2 - 160, HEIGHT/2 + 30);
+  textSize(20);
+  text(restart, 0, 0, 350, 40);
+  pop();
+}
+
 function reset() {
   player.reset();
   carLanes.reset(true);
@@ -190,7 +219,7 @@ function detectCarCollision() {
 }
 
 function detectEndingCollision(){
-  return player.y1 === 0;
+  return player.y1 < world.endZone.getY2();
 }  
 
 function detectLilypadCollision() {
@@ -212,26 +241,5 @@ function detectLilypadCollision() {
 }
 
 function detectRiverCollision(){
-  var totalUnits = HEIGHT/SCL;
-
-  if(!player.isOnLilypad && player.y1 <= SCL*Math.floor(totalUnits*0.4) - SCL) gameOver();
+  return (!player.isOnLilypad && player.y1 < world.river.getY2()) && player.y1 > world.river.getY1();
 }
-
-function drawWorld() {
-  var totalUnits = HEIGHT/SCL
-
-  push();
-  fill(50, 70, 180);
-  rect(0, 0, WIDTH, SCL*Math.floor(totalUnits*0.4));
-  pop();
-  
-  push();
-  fill(230);
-  rect(0, SCL*Math.floor(totalUnits*0.4), WIDTH, SCL);
-  pop();
-  
-  push();
-  fill(230);
-  rect(0, HEIGHT - SCL, WIDTH, SCL);
-}
-
