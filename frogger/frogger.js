@@ -60,7 +60,6 @@ function draw(){
   
   if(!inMenu){
     background("#222222"); 
-    //drawWorld();
     world.show();
 
     carLanes.show();
@@ -73,7 +72,7 @@ function draw(){
     
     var lilypad = detectLilypadCollision();
     
-    if(detectCarCollision() || detectRiverCollision()) 
+    if (detectCarCollision() || detectRiverCollision()) 
       gameOver();
     if (detectEndingCollision())
       levelPassed();
@@ -123,12 +122,12 @@ function keyPressed() {
       se nao, reativa o draw (chamando o loop())*/
     if(!inMenu) {
       loop();
-    startTimer();
+      startTimer();
     }
     
     else if(inMenu) {
       menuScreen();
-      timerReset();
+      reset();
     }
     
     console.log("inMenu: " + inMenu);
@@ -136,9 +135,6 @@ function keyPressed() {
   
   /*player movement is done by simply adding a unit == scl to the current position*/
   if(!inMenu){  /*prevents user from moving the frog in the menu screen*/
-      var totalUnits = HEIGHT/SCL;
-      //console.log(player.y1 + " " + SCL*Math.floor(totalUnits*0.4));
-      //console.log(player.y1 + " " + SCL*Math.floor(totalUnits*0.4));
     if (keyCode === UP_ARROW) {
       player.move(0,-1);
       player.updateScore();  
@@ -189,9 +185,9 @@ function levelPassed() {
   push();
   fill(255);
   textStyle(BOLD);
-  translate(WIDTH/2 - 175, HEIGHT/3);
+  translate(WIDTH/2 - 165, HEIGHT/3);
   textSize(40);
-  text(over, 0, 0, 350, 50);
+  text(over, 0, 0, 340, 50);
   pop();
   
   push();
@@ -202,10 +198,11 @@ function levelPassed() {
 }
 
 function reset() {
-  player.reset();
+  
   carLanes.reset(true);
   lilypadLanes.reset(true);
   timerReset();
+  player.reset();
 }
 
 function detectCarCollision() {
@@ -232,12 +229,10 @@ function detectLilypadCollision() {
       var lilypad = lane.getSingleElement(j);
       if(player.intersects(lilypad)) {
         player.setOnLilypad(lilypad, true);
-        //console.log("true? " + player.isOnLilypad);
         return lilypad;
       }
     }
   }
-  //console.log("false? " + player.isOnLilypad);
   player.setOnLilypad(lilypad, false);
   return false;
 }
@@ -247,6 +242,7 @@ function detectRiverCollision(){
 }
 
 function showScore() {}
+
 function showTime() {
   var seconds = tSeconds;
   var minutes = tMinute;
@@ -259,5 +255,4 @@ function showTime() {
   textSize(15);
   text(minutes + ":" + seconds, 0, 0, 60, 50);
   pop();
-  
 }

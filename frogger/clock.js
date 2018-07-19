@@ -7,7 +7,6 @@ var tSeconds = 0;
 function startTimer() {timerVar = setInterval(countTimer, 1000);}
 
 function countTimer() {
-  console.log("h:m:s " + tHour + ":" + tMinute + ":" + tSeconds);
    ++totalSeconds;
     tHour = Math.floor(totalSeconds/3600);
     tMinute = Math.floor((totalSeconds - tHour*3600)/60);
