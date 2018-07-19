@@ -39,7 +39,6 @@ class Frog {
     
   }
   
-  
   reset() {
     this.x1 = WIDTH/2 - this.width/2;
     this.y1 = HEIGHT - this.height;
@@ -50,10 +49,10 @@ class Frog {
   
   /*rudimentar */
   updateScore() {
-    this.score += SCL;  
+    this.score += SCL*1.5;  
   }
   
-  /*good practice*/
+  
   getScore() {
     return this.score;
   }

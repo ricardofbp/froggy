@@ -23,6 +23,7 @@ var lilypadLanes;
 var inMenu = true;
 var world;
 
+
 /***********************************************/
 /*                FUNCOES                      */
 /***********************************************/
@@ -36,15 +37,17 @@ function centerCanvas() {
 function setup() {
   cnv = createCanvas(WIDTH, HEIGHT);
   centerCanvas();
+  
 	background("#222222");
   menuScreen();
+  
   world = new World();
   player = new Frog();
   carLanes = new CarLanes(SCL*2, SCL, CAR_SPEED, NUMBER_CARS, NUMBER_CAR_LANES);
   lilypadLanes = new LilypadLanes(SCL, SCL, LILYPAD_SPEED, NUMBER_LILYPADS, NUMBER_LILYPAD_LANES);
+  
   carLanes.init();
   lilypadLanes.init();
- // world.endZone.show();
   
 }
 
@@ -63,6 +66,7 @@ function draw(){
     carLanes.show();
     lilypadLanes.show();
     player.show(); 
+    showTime();
     
     lilypadLanes.update();
     carLanes.update();
@@ -78,10 +82,6 @@ function draw(){
     if (player.isOnLilypad){
       player.moveOnLilypad(lilypad);
     }
-    
-
-    
-
     
   }
 }
@@ -123,11 +123,12 @@ function keyPressed() {
       se nao, reativa o draw (chamando o loop())*/
     if(!inMenu) {
       loop();
+    startTimer();
     }
     
     else if(inMenu) {
       menuScreen();
-      reset();
+      timerReset();
     }
     
     console.log("inMenu: " + inMenu);
@@ -204,6 +205,7 @@ function reset() {
   player.reset();
   carLanes.reset(true);
   lilypadLanes.reset(true);
+  timerReset();
 }
 
 function detectCarCollision() {
@@ -242,4 +244,20 @@ function detectLilypadCollision() {
 
 function detectRiverCollision(){
   return (!player.isOnLilypad && player.y1 < world.river.getY2()) && player.y1 > world.river.getY1();
+}
+
+function showScore() {}
+function showTime() {
+  var seconds = tSeconds;
+  var minutes = tMinute;
+  seconds = checkTime(seconds);
+  minutes = checkTime(minutes);
+  push();
+  stroke(0, 0, 0);
+  fill(255, 255, 255);
+  translate(WIDTH - 60, SCL/3);
+  textSize(15);
+  text(minutes + ":" + seconds, 0, 0, 60, 50);
+  pop();
+  
 }
