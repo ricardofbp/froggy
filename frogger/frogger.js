@@ -23,6 +23,7 @@ var carLanes;
 var lilypadLanes;
 var inMenu = true;
 var world;
+var img;
 
 
 /***********************************************/
@@ -50,6 +51,7 @@ function setup() {
   carLanes.init();
   lilypadLanes.init();
   
+  img = loadImage('http://web.tecnico.ulisboa.pt/~ist186506/frogger/assets/crazy_frog.png');
 }
 
 function windowResized() {

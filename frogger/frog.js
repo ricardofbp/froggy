@@ -31,7 +31,7 @@ class Frog {
     push();
     fill(0, 250, 0);
     translate((this.size - graphicSize)/2, (this.size - graphicSize)/2);
-    rect(this.x1, this.y1, graphicSize, graphicSize);
+    image(img,this.x1, this.y1);
     pop();
   }
   
