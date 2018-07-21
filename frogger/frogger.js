@@ -11,6 +11,7 @@ const CAR_SPEED = 1;
 const NUMBER_LILYPADS = 3;
 const NUMBER_LILYPAD_LANES = 5;
 const LILYPAD_SPEED = 0.4;
+const SCORE = 6969;
 
 /***********************************************/
 /*               VARS GLOBAIS                  */
@@ -175,9 +176,11 @@ function gameOver() {
 function levelPassed() {
   noLoop();
   clear();
- 
+  player.setScore(1,tSeconds);
+  
   var over = 'LEVEL PASSED';
   var restart = "PRESS SPACEBAR TO RESTART";
+  var player_score = "SCORE = " + round(player.getScore());
   
   background("#222222");   
   fill(255);
@@ -194,6 +197,12 @@ function levelPassed() {
   translate(WIDTH/2 - 160, HEIGHT/2 + 30);
   textSize(20);
   text(restart, 0, 0, 350, 40);
+  pop();
+  
+  push();
+  translate(WIDTH/2 - 90, HEIGHT/2 + 90);
+  textSize(25);
+  text(player_score, 0, 0, 350, 40);
   pop();
 }
 
