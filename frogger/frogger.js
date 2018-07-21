@@ -23,7 +23,9 @@ var carLanes;
 var lilypadLanes;
 var inMenu = true;
 var world;
-var img;
+var img_frog;
+var img_car;
+var img_lilypad;
 
 
 /***********************************************/
@@ -51,7 +53,9 @@ function setup() {
   carLanes.init();
   lilypadLanes.init();
   
-  img = loadImage('../assets/crazy_frog.png');
+  img_frog = loadImage('../assets/crazy_frog.png');
+  img_car = loadImage('../assets/car.jpg');
+  img_lilypad = loadImage('../assets/lilypad.jpg');
 }
 
 function windowResized() {

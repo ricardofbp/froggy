@@ -2,6 +2,11 @@ class Lilypad extends SingleElement{
   constructor(x, y, width, height, speed) {
     super(x, y, width, height, speed);
   }
+  show() {
+    fill(100, 0, 0);
+    image(img_lilypad,this.x1, this.y1);
+  }
+  
 }
 
 
