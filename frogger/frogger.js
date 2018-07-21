@@ -51,7 +51,7 @@ function setup() {
   carLanes.init();
   lilypadLanes.init();
   
-  img = loadImage('http://web.tecnico.ulisboa.pt/~ist186506/frogger/assets/crazy_frog.png');
+  img = loadImage('../assets/crazy_frog.png');
 }
 
 function windowResized() {
@@ -178,7 +178,7 @@ function gameOver() {
 function levelPassed() {
   noLoop();
   clear();
-  player.setScore(1,tSeconds);
+  player.setScore(1,totalSeconds);
   
   var over = 'LEVEL PASSED';
   var restart = "PRESS SPACEBAR TO RESTART";
