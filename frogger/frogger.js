@@ -51,11 +51,11 @@ function setup() {
   lilypadLanes = new LilypadLanes(SCL, SCL, LILYPAD_SPEED, NUMBER_LILYPADS, NUMBER_LILYPAD_LANES);
   
   carLanes.init();
-  lilypadLanes.init();
+  lilypadLanes.init();//
   
   img_frog = loadImage('../assets/crazy_frog.png');
-  img_car = loadImage('../assets/car.jpg');
-  img_lilypad = loadImage('../assets/lilypad.jpg');
+  img_car = loadImage('../assets/car.png');
+  img_lilypad = loadImage('../assets/lilypad.png');
 }
 
 function windowResized() {
@@ -73,6 +73,7 @@ function draw(){
     lilypadLanes.show();
     player.show(); 
     showTime();
+    showScore();
     
     lilypadLanes.update();
     carLanes.update();
@@ -145,6 +146,7 @@ function keyPressed() {
     if (keyCode === UP_ARROW) {
       player.move(0,-1);
       player.updateScore();  
+      
     }
     if (keyCode === DOWN_ARROW)  player.move(0,1); /*will be disabled in final build, frog only moves up*/
     if (keyCode === LEFT_ARROW)  player.move(-1,0);
@@ -256,7 +258,15 @@ function detectRiverCollision(){
   return (!player.isOnLilypad && player.y1 < world.river.getY2()) && player.y1 > world.river.getY1();
 }
 
-function showScore() {}
+function showScore() {
+  push();
+  stroke(0, 0, 0);
+  fill(255, 255, 255);
+  translate(SCL/3, SCL/3);
+  textSize(15);
+  text("SCORE: " + player.getScore(), 0, 0, 100, 20);
+  pop();
+}
 
 function showTime() {
   var seconds = tSeconds;
