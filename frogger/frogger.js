@@ -4,7 +4,7 @@
 
 const WIDTH = 450;
 const HEIGHT = 450;
-const SCL = 30; /*tem que ser multipla de WIDTH, HEIGHT*/
+const SCL = 30; /*tem que ser multiplo de WIDTH, HEIGHT*/
 const NUMBER_CARS = 4;
 const NUMBER_CAR_LANES = 3;
 const CAR_SPEED = 1;
@@ -19,10 +19,12 @@ const SCORE = 6969;
 
 var cnv;
 var player;
+var level = 1;
 var carLanes;
 var lilypadLanes;
 var inMenu = true;
 var world;
+
 var img_frog;
 var img_car;
 var img_lilypad;
@@ -146,11 +148,12 @@ function keyPressed() {
     if (keyCode === UP_ARROW) {
       player.move(0,-1);
       player.updateScore();  
-      
     }
+    
     if (keyCode === DOWN_ARROW)  player.move(0,1); /*will be disabled in final build, frog only moves up*/
     if (keyCode === LEFT_ARROW)  player.move(-1,0);
     if (keyCode === RIGHT_ARROW) player.move(1,0);
+    if (keyCode === 65) changeLevel();
 
   }
   
@@ -181,14 +184,53 @@ function gameOver() {
   pop();
 }
 
+function changeLevel() {
+  level++;
+  var i;
+  
+  for(i = 0; i < NUMBER_CAR_LANES; i++) {
+    
+    lane = carLanes.getLane(i);
+    if(lane.getSpeed() < 0) {
+      var newSpeed = lane.getSpeed() - CAR_SPEED*0.20;
+      console.log("old speed: " + lane.getSpeed());
+      lane.setSpeed(newSpeed); 
+      console.log("new speed: " + lane.getSpeed() + "\n");
+    }
+    
+    else {
+      var newSpeed = lane.getSpeed() + CAR_SPEED*0.20;
+      lane.setSpeed(newSpeed); 
+    }
+  }
+  
+  for(i = 0; i < NUMBER_LILYPAD_LANES; i++) {
+    
+    lane = lilypadLanes.getLane(i);
+    if(lane.getSpeed() < 0) {
+      var newSpeed = lane.getSpeed() - LILYPAD_SPEED*0.20;
+      console.log("old speed: " + lane.getSpeed());
+      lane.setSpeed(newSpeed); 
+      console.log("new speed: " + lane.getSpeed());
+    }
+    
+    else {
+      var newSpeed = lane.getSpeed() + LILYPAD_SPEED*0.20;
+      lane.setSpeed(newSpeed); 
+    }
+  }
+  
+}
+
 function levelPassed() {
   noLoop();
   clear();
-  player.setScore(1,totalSeconds);
+  player.setScore(level, totalSeconds);
+  changeLevel();
   
   var over = 'LEVEL PASSED';
   var restart = "PRESS SPACEBAR TO RESTART";
-  var player_score = "SCORE = " + round(player.getScore());
+  var playerScore = "SCORE = " + round(player.getScore());
   
   background("#222222");   
   fill(255);
@@ -210,12 +252,11 @@ function levelPassed() {
   push();
   translate(WIDTH/2 - 90, HEIGHT/2 + 90);
   textSize(25);
-  text(player_score, 0, 0, 350, 40);
+  text(playerScore, 0, 0, 350, 40);
   pop();
 }
 
 function reset() {
-  
   carLanes.reset(true);
   lilypadLanes.reset(true);
   timerReset();
@@ -255,10 +296,12 @@ function detectLilypadCollision() {
 }
 
 function detectRiverCollision(){
+  //if player crosses the river without being on a lilypad
   return (!player.isOnLilypad && player.y1 < world.river.getY2()) && player.y1 > world.river.getY1();
 }
 
 function showScore() {
+  //displays the score on the level screen
   push();
   stroke(0, 0, 0);
   fill(255, 255, 255);
@@ -269,6 +312,7 @@ function showScore() {
 }
 
 function showTime() {
+  //displays the playing time on the level screen
   var seconds = tSeconds;
   var minutes = tMinute;
   seconds = checkTime(seconds);

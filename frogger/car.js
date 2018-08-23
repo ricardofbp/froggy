@@ -2,6 +2,7 @@ class Car extends SingleElement{
   constructor(x, y, width, height, speed) {
     super(x, y, width, height, speed);
   }
+  
   show() {
     fill(100, 0, 0);
     image(img_car,this.x1, this.y1);
@@ -45,6 +46,7 @@ class CarLanes extends MultipleLanes{
   init(){
     var i;
     for(i = 0; i < this.numLanes; i++) {
+      //makes different lanes have different orientations
       this.speed = -1*this.speed;
       var lane =  new CarLane(390 - (i*SCL*3), this.width, this.height, this.speed, this.numElems);
       lane.init();

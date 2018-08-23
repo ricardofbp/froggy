@@ -11,6 +11,9 @@ class SingleElement {
     this.speed = speed;
   }
   
+  getSpeed() {return this.speed;}
+  setSpeed(speed) {this.speed = speed;}
+  
   update() {
     if ((this.x1 >= WIDTH && this.speed > 0)  || (this.x1 <= 0 - this.width && this.speed < 0)) {
       this.reset(false);
@@ -50,6 +53,15 @@ class SingleLane {
   
   init(){console.log("NOT SUPPOSED LOL");}
   
+  getSpeed() {return this.speed;}
+  
+  setSpeed(speed) {
+    var i;
+    for(i = 0; i < this.elements.length; i++){
+      this.elements[i].setSpeed(speed);
+    }
+  }
+  
   reset(totalReset) {
     var i;
     for(i = 0; i < this.elements.length; i++) {
@@ -75,8 +87,8 @@ class SingleLane {
 }
 
 
-
 class MultipleLanes {
+  //composite design pattern could be better applied here, i.e. extending SingleLane
   constructor(width, height, speed, numElems, numLanes) {
     this.width = width;
     this.height = height;
@@ -87,6 +99,15 @@ class MultipleLanes {
   }
   
   init(){console.log("NOT SUPPOSED LOL");}
+  
+  getSpeed() {return this.speed;}
+  
+  setSpeed(speed) {
+    var i;
+    for(i = 0; i < this.lanes.length; i++){
+      this.lanes[i].setSpeed(speed);
+    }
+  }
   
   update(){
     var i;
