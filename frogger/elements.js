@@ -56,6 +56,7 @@ class SingleLane {
   getSpeed() {return this.speed;}
   
   setSpeed(speed) {
+    this.speed = speed;
     var i;
     for(i = 0; i < this.elements.length; i++){
       this.elements[i].setSpeed(speed);

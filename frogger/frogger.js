@@ -185,6 +185,7 @@ function gameOver() {
 }
 
 function changeLevel() {
+  
   level++;
   var i;
   
@@ -192,14 +193,14 @@ function changeLevel() {
     
     lane = carLanes.getLane(i);
     if(lane.getSpeed() < 0) {
-      var newSpeed = lane.getSpeed() - CAR_SPEED*0.20;
+      var newSpeed = lane.getSpeed() - CAR_SPEED;
       console.log("old speed: " + lane.getSpeed());
       lane.setSpeed(newSpeed); 
       console.log("new speed: " + lane.getSpeed() + "\n");
     }
     
     else {
-      var newSpeed = lane.getSpeed() + CAR_SPEED*0.20;
+      var newSpeed = lane.getSpeed() + CAR_SPEED;
       lane.setSpeed(newSpeed); 
     }
   }
@@ -208,14 +209,14 @@ function changeLevel() {
     
     lane = lilypadLanes.getLane(i);
     if(lane.getSpeed() < 0) {
-      var newSpeed = lane.getSpeed() - LILYPAD_SPEED*0.20;
+      var newSpeed = lane.getSpeed() - LILYPAD_SPEED;
       console.log("old speed: " + lane.getSpeed());
       lane.setSpeed(newSpeed); 
       console.log("new speed: " + lane.getSpeed());
     }
     
     else {
-      var newSpeed = lane.getSpeed() + LILYPAD_SPEED*0.20;
+      var newSpeed = lane.getSpeed() + LILYPAD_SPEED;
       lane.setSpeed(newSpeed); 
     }
   }
