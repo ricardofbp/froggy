@@ -3,8 +3,16 @@ class Lilypad extends SingleElement{
     super(x, y, width, height, speed);
   }
   show() {
-    fill(100, 0, 0);
-    image(img_lilypad,this.x1, this.y1);
+    push();
+    if (noGraphics) {
+      fill(100, 200, 0);
+      stroke(10, 100, 10);
+      rect(this.x1, this.y1, this.width, this.height);
+    }
+    else {
+      image(img_lilypad,this.x1, this.y1);
+    }
+    pop();
   }
   
 }

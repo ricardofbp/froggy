@@ -22,8 +22,10 @@ var player;
 var level = 1;
 var carLanes;
 var lilypadLanes;
-var inMenu = true;
+var inMainMenu = true;
+var inLevelMenu = false;
 var world;
+var noGraphics = true;
 
 var img_frog;
 var img_car;
@@ -67,7 +69,7 @@ function windowResized() {
 
 function draw(){
   
-  if(!inMenu){
+  if(!inMainMenu){
     background("#222222"); 
     world.show();
 
@@ -100,8 +102,9 @@ function menuScreen() {
   /* desativa o draw */
   noLoop();
  
-  var begin = 'PRESS SPACEBAR TO PLAY';
   var title = "FROGGER";
+  var begin = 'PRESS SPACEBAR TO PLAY';
+  var graphics = 'PRESS G TO ACTIVATE OR DEACTIVATE SPRITES'
   
   background("#222222");   
   fill(255);
@@ -119,42 +122,55 @@ function menuScreen() {
   textSize(20);
   text(begin, 0, 0, 280, 40);
   pop();
+  
+  push();
+  translate(WIDTH/2 - 135, HEIGHT/2 + 80);
+  textSize(20);
+  text(graphics, 0, 0, 300, 100);
+  pop();
+
 }
 
 
 function keyPressed() {
   if (keyCode === 32) {
     clear();
-    inMenu = !inMenu;
     
     /*verifica se o user vai para o menu: 
       se sim, chama o menuScreen
       se nao, reativa o draw (chamando o loop())*/
-    if(!inMenu) {
+    if(inMainMenu) {
       loop();
       startTimer();
+      inMainMenu = false;
     }
     
-    else if(inMenu) {
+    else if(inLevelMenu) {
+      loop();
+      startTimer();
+      inLevelMenu = false;
+    }
+    else if(!inMainMenu) {
       menuScreen();
       reset();
+      inMainMenu = true;
     }
     
-    console.log("inMenu: " + inMenu);
+    console.log("inMainMenu: " + inMainMenu);
   }
   
   /*player movement is done by simply adding a unit == scl to the current position*/
-  if(!inMenu){  /*prevents user from moving the frog in the menu screen*/
+  if(!inMainMenu){  /*prevents user from moving the frog in the menu screen*/
     if (keyCode === UP_ARROW) {
       player.move(0,-1);
       player.updateScore();  
     }
-    
     if (keyCode === DOWN_ARROW)  player.move(0,1); /*will be disabled in final build, frog only moves up*/
     if (keyCode === LEFT_ARROW)  player.move(-1,0);
     if (keyCode === RIGHT_ARROW) player.move(1,0);
-    if (keyCode === 65) changeLevel();
-
+    if (keyCode === 76)          changeLevel(); /*letter 'l'*/
+    if (keyCode === 71)          {noGraphics = !noGraphics; /*letter 'g'*/ console.log("noGraphics = " + noGraphics);}
+    if (keyCode === 80) levelPassed();
   }
   
 }
@@ -193,14 +209,12 @@ function changeLevel() {
     
     lane = carLanes.getLane(i);
     if(lane.getSpeed() < 0) {
-      var newSpeed = lane.getSpeed() - CAR_SPEED;
-      console.log("old speed: " + lane.getSpeed());
+      var newSpeed = lane.getSpeed() - CAR_SPEED*0.38;
       lane.setSpeed(newSpeed); 
-      console.log("new speed: " + lane.getSpeed() + "\n");
     }
     
     else {
-      var newSpeed = lane.getSpeed() + CAR_SPEED;
+      var newSpeed = lane.getSpeed() + CAR_SPEED*0.38;
       lane.setSpeed(newSpeed); 
     }
   }
@@ -209,14 +223,12 @@ function changeLevel() {
     
     lane = lilypadLanes.getLane(i);
     if(lane.getSpeed() < 0) {
-      var newSpeed = lane.getSpeed() - LILYPAD_SPEED;
-      console.log("old speed: " + lane.getSpeed());
+      var newSpeed = lane.getSpeed() - LILYPAD_SPEED*0.29;
       lane.setSpeed(newSpeed); 
-      console.log("new speed: " + lane.getSpeed());
     }
     
     else {
-      var newSpeed = lane.getSpeed() + LILYPAD_SPEED;
+      var newSpeed = lane.getSpeed() + LILYPAD_SPEED*0.29;
       lane.setSpeed(newSpeed); 
     }
   }
@@ -227,11 +239,14 @@ function levelPassed() {
   noLoop();
   clear();
   player.setScore(level, totalSeconds);
-  changeLevel();
+  inLevelMenu = true;
   
-  var over = 'LEVEL PASSED';
-  var restart = "PRESS SPACEBAR TO RESTART";
-  var playerScore = "SCORE = " + round(player.getScore());
+  
+  var over = 'LEVEL ' + level + ' PASSED';
+  var restart = "PRESS SPACEBAR TO CONTINUE";
+  var playerScore = "SCORE: " + round(player.getScore());
+  
+  changeLevel();
   
   background("#222222");   
   fill(255);
@@ -239,9 +254,10 @@ function levelPassed() {
   push();
   fill(255);
   textStyle(BOLD);
-  translate(WIDTH/2 - 165, HEIGHT/3);
+  if (level < 10) translate(WIDTH/2 - 185, HEIGHT/3);
+  else translate(WIDTH/2 - 193, HEIGHT/3);
   textSize(40);
-  text(over, 0, 0, 340, 50);
+  text(over, 0, 0, 450, 50);
   pop();
   
   push();
@@ -255,6 +271,7 @@ function levelPassed() {
   textSize(25);
   text(playerScore, 0, 0, 350, 40);
   pop();
+  
 }
 
 function reset() {

@@ -11,8 +11,11 @@ class WorldElement {
   }
   
   show() {
+    push();
     fill(this.rgb[0], this.rgb[1], this.rgb[2]);
+    stroke(40, 40, 40);
     rect(this.x1, this.y1, this.width, this.height);
+    pop();
   }
   
   getX1() {return this.x1;}
@@ -32,7 +35,7 @@ class World {
     
     this.midSafeZone = new WorldElement(0, SCL*Math.floor(this.totalGridUnits*0.4), WIDTH, SCL, 0, 170, 0);
     
-    this.road = new WorldElement(0, SCL*Math.floor(this.totalGridUnits*0.4) + SCL, WIDTH, SCL*Math.floor(this.totalGridUnits*0.4) + SCL, 70, 70, 70);
+    this.road = new WorldElement(0, SCL*Math.floor(this.totalGridUnits*0.4) + SCL, WIDTH, SCL*Math.floor(this.totalGridUnits*0.4) + SCL, 60, 60, 60);
     
     this.startSafeZone = new WorldElement(0, HEIGHT-SCL, WIDTH, HEIGHT, 0, 170, 0);
   }

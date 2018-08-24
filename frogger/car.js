@@ -4,11 +4,18 @@ class Car extends SingleElement{
   }
   
   show() {
-    fill(100, 0, 0);
-    image(img_car,this.x1, this.y1);
+    push();
+    if (noGraphics) {
+      fill(200, 0, 0);
+      stroke(100, 15, 15);
+      rect(this.x1, this.y1, this.width, this.height);
+    }
+    else {
+      image(img_car,this.x1, this.y1);
+    }
+    pop();
   }
 }
-
 
 class CarLane extends SingleLane{
   constructor(y, width, height, speed, numElems) {

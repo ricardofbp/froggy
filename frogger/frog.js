@@ -18,7 +18,6 @@ class Frog {
     this.y1 = constrain(this.y1 + (y * SCL), 0, HEIGHT - SCL);
     this.x2 = constrain(this.x2 + (x * SCL) + this.speed, SCL, WIDTH);
     this.y2 = constrain(this.y2 + (y * SCL), SCL, HEIGHT);
-    this.updateScore();
   }
   
   moveOnLilypad(lilypad) {
@@ -29,9 +28,14 @@ class Frog {
   show() {
     var graphicSize = this.size * 0.70;
     push();
-    fill(0, 250, 0);
-    translate((this.size - graphicSize)/2, (this.size - graphicSize)/2);
-    image(img_frog,this.x1, this.y1);
+    if (noGraphics){    
+      fill(0, 250, 0);
+      translate((this.size - graphicSize)/2, (this.size - graphicSize)/2);
+      rect(this.x1, this.y1, graphicSize, graphicSize);
+    }
+    else{
+      image(img_frog, this.x1, this.y1);
+    }
     pop();
   }
   
@@ -50,17 +54,15 @@ class Frog {
   
   /*rudimentar */
   updateScore() {
-    if (this.score <= 250)
-    this.score += SCL*1.5;  
+    this.score += 10; 
   }
-  
   
   getScore() {
     return this.score;
   }
   
-  setScore(nr_lvl , time_elapsed){
-    this.score += SCORE * (nr_lvl * (1/time_elapsed)); 
+  setScore(level, time_elapsed){
+    this.score += SCORE * (level * (1/time_elapsed)); 
   }
   
   isOnLilypad() { return this.onLilypad; }
