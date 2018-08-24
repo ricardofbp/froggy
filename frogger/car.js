@@ -15,6 +15,30 @@ class Car extends SingleElement{
     }
     pop();
   }
+  
+  reset(totalReset) {
+    
+    if(totalReset) {
+      if (this.speed < 0) {
+        this.speed = -1 * CAR_SPEED;
+        this.x1 = this.originalX;
+      }
+    
+      else {
+        this.speed = CAR_SPEED;
+        this.x1 = this.originalX;
+      }
+      
+    }
+      
+    else {
+      if (this.speed < 0) this.x1 = WIDTH + this.width;
+      else this.x1 = 0 - this.width;
+    }
+    
+    this.x2 = this.x1 + this.width;
+  
+  }
 }
 
 class CarLane extends SingleLane{

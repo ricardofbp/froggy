@@ -24,6 +24,7 @@ var carLanes;
 var lilypadLanes;
 var inMainMenu = true;
 var inLevelMenu = false;
+var inGameOverMenu = false;
 var world;
 var noGraphics = true;
 
@@ -101,6 +102,7 @@ function draw(){
 function menuScreen() {
   /* desativa o draw */
   noLoop();
+  inMainMenu = true;
  
   var title = "FROGGER";
   var begin = 'PRESS SPACEBAR TO PLAY';
@@ -135,25 +137,25 @@ function menuScreen() {
 function keyPressed() {
   if (keyCode === 32) {
     clear();
-    
     /*verifica se o user vai para o menu: 
       se sim, chama o menuScreen
       se nao, reativa o draw (chamando o loop())*/
     if(inMainMenu) {
+      inMainMenu = false;
       loop();
       startTimer();
-      inMainMenu = false;
     }
     
     else if(inLevelMenu) {
+      inLevelMenu = false;
       loop();
       startTimer();
-      inLevelMenu = false;
     }
-    else if(!inMainMenu) {
+    
+    else if(inGameOverMenu) {
+      inGameOverMenu = false;
       menuScreen();
-      reset();
-      inMainMenu = true;
+      reset(true);
     }
     
     console.log("inMainMenu: " + inMainMenu);
@@ -168,9 +170,14 @@ function keyPressed() {
     if (keyCode === DOWN_ARROW)  player.move(0,1); /*will be disabled in final build, frog only moves up*/
     if (keyCode === LEFT_ARROW)  player.move(-1,0);
     if (keyCode === RIGHT_ARROW) player.move(1,0);
-    if (keyCode === 76)          changeLevel(); /*letter 'l'*/
     if (keyCode === 71)          {noGraphics = !noGraphics; /*letter 'g'*/ console.log("noGraphics = " + noGraphics);}
+    if (keyCode === 76)          changeLevel(); /*letter 'l'*/
     if (keyCode === 80) levelPassed();
+    if (keyCode === 82) {
+      menuScreen();
+      reset();
+      inMainMenu = true;
+    }
   }
   
 }
@@ -178,6 +185,8 @@ function keyPressed() {
 function gameOver() {
   noLoop();
   clear();
+  inGameOverMenu = true;
+
  
   var over = 'GAME OVER';
   var restart = "PRESS SPACEBAR TO RESTART";
@@ -198,6 +207,8 @@ function gameOver() {
   textSize(20);
   text(restart, 0, 0, 350, 40);
   pop();
+  
+  reset(false);
 }
 
 function changeLevel() {
@@ -233,12 +244,15 @@ function changeLevel() {
     }
   }
   
+  reset(false);
+  
 }
 
 function levelPassed() {
   noLoop();
   clear();
   player.setScore(level, totalSeconds);
+  inMainMenu = false;
   inLevelMenu = true;
   
   
@@ -274,11 +288,17 @@ function levelPassed() {
   
 }
 
-function reset() {
-  carLanes.reset(true);
-  lilypadLanes.reset(true);
+function reset(totalReset) {
+
   timerReset();
   player.reset();
+  carLanes.reset(true);
+  lilypadLanes.reset(true);
+  
+  if (totalReset) {
+    level = 1;
+  }
+  
 }
 
 function detectCarCollision() {
